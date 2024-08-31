@@ -113,6 +113,7 @@ SECTIONS
         "*(.data.*)"
         . = ALIGN(4);
         *(.ramtext)
+        *(.ramtext.*)
         . = ALIGN(4);
         __data_end__ = .;
     } > ram
