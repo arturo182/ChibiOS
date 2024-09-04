@@ -1,12 +1,8 @@
 _svd: "./RP2040.svd"
 
 _modify:
-  USB:
-    name: USBCTRL_REGS
-  USB_DPRAM:
-    name: USBCTRL_DPRAM
-  SSI:
-    name: XIP_SSI
+  TIMER:
+    name: TIMER0
 
 DMA:
   CHAN_ABORT:
@@ -688,7 +684,7 @@ PADS_BANK0:
   _array:
     "GPIO*": {}
 
-USBCTRL_REGS:
+USB:
   SIE_STATUS:
     LINE_STATE:
       SE0: [0, "SE0"]
@@ -750,7 +746,7 @@ SIO:
       description: _original
       name: SPINLOCK%s
 
-USBCTRL_DPRAM:
+USB_DPRAM:
   _modify:
     "EP1_IN_CONTROL":
       description: "-"
