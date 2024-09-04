@@ -195,7 +195,7 @@ DMA:
       _from: "CH11_CTRL_TRIG"
       addressOffset: 0x2f0
   _cluster:
-    "CH%s":
+    "CH[%s]":
       "CH?_READ_ADDR,CH??_READ_ADDR": {}
       "CH?_WRITE_ADDR,CH??_WRITE_ADDR": {}
       "CH?_TRANS_COUNT,CH??_TRANS_COUNT": {}
@@ -220,7 +220,7 @@ PIO0:
     "RXF*": {}
 
   _cluster:
-    "SM%s":
+    "SM[%s]":
       "SM*_CLKDIV": {}
       "SM*_EXECCTRL": {}
       "SM*_SHIFTCTRL": {}
@@ -228,7 +228,7 @@ PIO0:
       "SM*_INSTR": {}
       "SM*_PINCTRL": {}
 
-    "SM_IRQ%s":
+    "SM_IRQ[%s]":
       "IRQ*_INTE": {}
       "IRQ*_INTF": {}
       "IRQ*_INTS": {}
@@ -245,7 +245,7 @@ PWM:
         name: "CTR"
 
   _cluster:
-    "CH%s":
+    "CH[%s]":
       "CH*_CC":
         name: "CC"
       "CH*_CSR":
@@ -638,7 +638,7 @@ IO_BANK0:
         "null": [31, "Connect to nothing"]
 
   _cluster:
-    "GPIO%s":
+    "GPIO[%s]":
       "GPIO*_STATUS": {}
       "GPIO*_CTRL": {}
 
@@ -674,7 +674,7 @@ VREG_AND_CHIP_RESET:
 
 IO_QSPI:
   _cluster:
-    "GPIO_QSPI%s":
+    "GPIO_QSPI[%s]":
       "GPIO_QSPI_*_STATUS":
         name: "GPIO_STATUS"
       "GPIO_QSPI_*_CTRL":
@@ -700,7 +700,7 @@ USB:
   # This renaming is necessary to avoid collision with the "ADDR_ENDP" register used in device mode.
   _array:
     "ADDR_ENDP[123456789],ADDR_ENDP1[012345]":
-      name: "HOST_ADDR_ENDP%s"
+      name: "HOST_ADDR_ENDP[%s]"
       description: "Interrupt endpoints. Only valid in HOST mode."
 
 ROSC:
@@ -744,7 +744,7 @@ SIO:
     "SPINLOCK[0123456789],SPINLOCK[12][0123456789],SPINLOCK3[01]":
       _start_from_zero: true
       description: _original
-      name: SPINLOCK%s
+      name: SPINLOCK[%s]
 
 USB_DPRAM:
   _modify:
@@ -757,11 +757,11 @@ USB_DPRAM:
     "EP*_IN_BUFFER_CONTROL,EP*_OUT_BUFFER_CONTROL":
         _start_from_zero: true
         description: _original
-        name: "EP_BUFFER_CONTROL%s"
+        name: "EP_BUFFER_CONTROL[%s]"
     "EP*_IN_CONTROL,EP*_OUT_CONTROL":
         _start_from_zero: true
         description: _original
-        name: "EP_CONTROL%s"
+        name: "EP_CONTROL[%s]"
 
   _copy:
     EPX_CONTROL:

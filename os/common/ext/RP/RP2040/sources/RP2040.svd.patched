@@ -3660,8 +3660,8 @@
           <dim>6</dim>
           <dimIncrement>0x8</dimIncrement>
           <dimIndex>SCLK,SS,SD0,SD1,SD2,SD3</dimIndex>
-          <name>GPIO_QSPI%s</name>
-          <description>Cluster GPIO_QSPI%s, containing GPIO_QSPI_*_STATUS, GPIO_QSPI_*_CTRL</description>
+          <name>GPIO_QSPI[%s]</name>
+          <description>Cluster GPIO_QSPI[%s], containing GPIO_QSPI_*_STATUS, GPIO_QSPI_*_CTRL</description>
           <addressOffset>0x0</addressOffset>
           <register>
             <name>GPIO_STATUS</name>
@@ -5168,8 +5168,8 @@
           <dim>30</dim>
           <dimIncrement>0x8</dimIncrement>
           <dimIndex>0-29</dimIndex>
-          <name>GPIO%s</name>
-          <description>Cluster GPIO%s, containing GPIO*_STATUS, GPIO*_CTRL</description>
+          <name>GPIO[%s]</name>
+          <description>Cluster GPIO[%s], containing GPIO*_STATUS, GPIO*_CTRL</description>
           <addressOffset>0x0</addressOffset>
           <register>
             <name>GPIO_STATUS</name>
@@ -8085,7 +8085,7 @@
       </registers>
     </peripheral>
     <peripheral>
-      <name>XIP_SSI</name>
+      <name>SSI</name>
       <description>DW_apb_ssi has the following features: 
             * APB interface – Allows for easy integration into a DesignWare Synthesizable Components for AMBA 2 implementation. 
             * APB3 and APB4 protocol support. 
@@ -10880,8 +10880,8 @@
           <dim>12</dim>
           <dimIncrement>0x40</dimIncrement>
           <dimIndex>0-11</dimIndex>
-          <name>CH%s</name>
-          <description>Cluster CH%s, containing CH?_READ_ADDR,CH??_READ_ADDR, CH?_WRITE_ADDR,CH??_WRITE_ADDR, CH?_TRANS_COUNT,CH??_TRANS_COUNT, CH?_CTRL_TRIG,CH??_CTRL_TRIG, CH?_AL1_CTRL,CH??_AL1_CTRL, CH?_AL1_READ_ADDR,CH??_AL1_READ_ADDR, CH?_AL1_WRITE_ADDR,CH??_AL1_WRITE_ADDR, CH?_AL1_TRANS_COUNT_TRIG,CH??_AL1_TRANS_COUNT_TRIG, CH?_AL2_CTRL,CH??_AL2_CTRL, CH?_AL2_TRANS_COUNT,CH??_AL2_TRANS_COUNT, CH?_AL2_READ_ADDR,CH??_AL2_READ_ADDR, CH?_AL2_WRITE_ADDR_TRIG,CH??_AL2_WRITE_ADDR_TRIG, CH?_AL3_CTRL,CH??_AL3_CTRL, CH?_AL3_WRITE_ADDR,CH??_AL3_WRITE_ADDR, CH?_AL3_TRANS_COUNT,CH??_AL3_TRANS_COUNT, CH?_AL3_READ_ADDR_TRIG,CH??_AL3_READ_ADDR_TRIG</description>
+          <name>CH[%s]</name>
+          <description>Cluster CH[%s], containing CH?_READ_ADDR,CH??_READ_ADDR, CH?_WRITE_ADDR,CH??_WRITE_ADDR, CH?_TRANS_COUNT,CH??_TRANS_COUNT, CH?_CTRL_TRIG,CH??_CTRL_TRIG, CH?_AL1_CTRL,CH??_AL1_CTRL, CH?_AL1_READ_ADDR,CH??_AL1_READ_ADDR, CH?_AL1_WRITE_ADDR,CH??_AL1_WRITE_ADDR, CH?_AL1_TRANS_COUNT_TRIG,CH??_AL1_TRANS_COUNT_TRIG, CH?_AL2_CTRL,CH??_AL2_CTRL, CH?_AL2_TRANS_COUNT,CH??_AL2_TRANS_COUNT, CH?_AL2_READ_ADDR,CH??_AL2_READ_ADDR, CH?_AL2_WRITE_ADDR_TRIG,CH??_AL2_WRITE_ADDR_TRIG, CH?_AL3_CTRL,CH??_AL3_CTRL, CH?_AL3_WRITE_ADDR,CH??_AL3_WRITE_ADDR, CH?_AL3_TRANS_COUNT,CH??_AL3_TRANS_COUNT, CH?_AL3_READ_ADDR_TRIG,CH??_AL3_READ_ADDR_TRIG</description>
           <addressOffset>0x0</addressOffset>
           <register>
             <name>CH_READ_ADDR</name>
@@ -13256,7 +13256,7 @@
       </registers>
     </peripheral>
     <peripheral>
-      <name>TIMER</name>
+      <name>TIMER0</name>
       <description>Controls time and alarms 
             time is a 64 bit value indicating the time in usec since power-on 
             timeh is the top 32 bits of time &amp; timel is the bottom 32 bits 
@@ -13622,8 +13622,8 @@
           <dim>8</dim>
           <dimIncrement>0x14</dimIncrement>
           <dimIndex>0-7</dimIndex>
-          <name>CH%s</name>
-          <description>Cluster CH%s, containing CH*_CC, CH*_CSR, CH*_CTR, CH*_DIV, CH*_TOP</description>
+          <name>CH[%s]</name>
+          <description>Cluster CH[%s], containing CH*_CC, CH*_CSR, CH*_CTR, CH*_DIV, CH*_TOP</description>
           <addressOffset>0x0</addressOffset>
           <register>
             <name>CC</name>
@@ -17687,8 +17687,8 @@
           <dim>4</dim>
           <dimIncrement>0x18</dimIncrement>
           <dimIndex>0-3</dimIndex>
-          <name>SM%s</name>
-          <description>Cluster SM%s, containing SM*_CLKDIV, SM*_EXECCTRL, SM*_SHIFTCTRL, SM*_ADDR, SM*_INSTR, SM*_PINCTRL</description>
+          <name>SM[%s]</name>
+          <description>Cluster SM[%s], containing SM*_CLKDIV, SM*_EXECCTRL, SM*_SHIFTCTRL, SM*_ADDR, SM*_INSTR, SM*_PINCTRL</description>
           <addressOffset>0xC8</addressOffset>
           <register>
             <name>SM_CLKDIV</name>
@@ -18014,8 +18014,8 @@
           <dim>2</dim>
           <dimIncrement>0xC</dimIncrement>
           <dimIndex>0-1</dimIndex>
-          <name>SM_IRQ%s</name>
-          <description>Cluster SM_IRQ%s, containing IRQ*_INTE, IRQ*_INTF, IRQ*_INTS</description>
+          <name>SM_IRQ[%s]</name>
+          <description>Cluster SM_IRQ[%s], containing IRQ*_INTE, IRQ*_INTF, IRQ*_INTS</description>
           <addressOffset>0x12C</addressOffset>
           <register>
             <name>IRQ_INTE</name>
@@ -19929,7 +19929,7 @@
           <dim>32</dim>
           <dimIncrement>0x4</dimIncrement>
           <dimIndex>0-31</dimIndex>
-          <name>SPINLOCK%s</name>
+          <name>SPINLOCK[%s]</name>
           <description>Reading from a spinlock address will: 
                     - Return 0 if lock is already locked 
                     - Otherwise return nonzero, and simultaneously claim the lock
@@ -19951,7 +19951,7 @@
       </registers>
     </peripheral>
     <peripheral>
-      <name>USBCTRL_REGS</name>
+      <name>USB</name>
       <description>USB FS/LS controller device registers</description>
       <baseAddress>0x50110000</baseAddress>
       <addressBlock>
@@ -19988,7 +19988,7 @@
           <dim>15</dim>
           <dimIncrement>0x4</dimIncrement>
           <dimIndex>1-15</dimIndex>
-          <name>HOST_ADDR_ENDP%s</name>
+          <name>HOST_ADDR_ENDP[%s]</name>
           <description>Interrupt endpoints. Only valid in HOST mode.</description>
           <addressOffset>0x4</addressOffset>
           <resetValue>0x00000000</resetValue>
@@ -22213,7 +22213,7 @@
       </registers>
     </peripheral>
     <peripheral>
-      <name>USBCTRL_DPRAM</name>
+      <name>USB_DPRAM</name>
       <description>DPRAM layout for USB device.</description>
       <baseAddress>0x50100000</baseAddress>
       <addressBlock>
@@ -22267,7 +22267,7 @@
           <dim>30</dim>
           <dimIncrement>0x4</dimIncrement>
           <dimIndex>0-29</dimIndex>
-          <name>EP_CONTROL%s</name>
+          <name>EP_CONTROL[%s]</name>
           <description>-</description>
           <addressOffset>0x8</addressOffset>
           <resetValue>0x00000000</resetValue>
@@ -22349,7 +22349,7 @@
           <dim>32</dim>
           <dimIncrement>0x4</dimIncrement>
           <dimIndex>0-31</dimIndex>
-          <name>EP_BUFFER_CONTROL%s</name>
+          <name>EP_BUFFER_CONTROL[%s]</name>
           <description>-</description>
           <addressOffset>0x80</addressOffset>
           <resetValue>0x00000000</resetValue>
