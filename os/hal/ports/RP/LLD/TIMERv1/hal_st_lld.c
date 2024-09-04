@@ -105,9 +105,9 @@ OSAL_IRQ_HANDLER(RP_TIMER_IRQ0_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  osalDbgAssert((TIMER->INTS & TIMER_INTS_ALARM0) != 0U, "not pending");
+  osalDbgAssert((TIMER0->INTS & TIMER_INTS_ALARM0) != 0U, "not pending");
 
-  TIMER->INTR = TIMER_INTR_ALARM0;
+  TIMER0->INTR = TIMER_INTR_ALARM0;
 
 #if defined(ST_LLD_ALARM0_STATIC_CB)
   ST_LLD_ALARM0_STATIC_CB();
@@ -131,9 +131,9 @@ OSAL_IRQ_HANDLER(RP_TIMER_IRQ1_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  osalDbgAssert((TIMER->INTS & TIMER_INTS_ALARM1) != 0U, "not pending");
+  osalDbgAssert((TIMER0->INTS & TIMER_INTS_ALARM1) != 0U, "not pending");
 
-  TIMER->INTR = TIMER_INTR_ALARM1;
+  TIMER0->INTR = TIMER_INTR_ALARM1;
 
 #if defined(ST_LLD_ALARM1_STATIC_CB)
   ST_LLD_ALARM1_STATIC_CB();
@@ -157,9 +157,9 @@ OSAL_IRQ_HANDLER(RP_TIMER_IRQ2_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  osalDbgAssert((TIMER->INTS & TIMER_INTS_ALARM2) != 0U, "not pending");
+  osalDbgAssert((TIMER0->INTS & TIMER_INTS_ALARM2) != 0U, "not pending");
 
-  TIMER->INTR = TIMER_INTR_ALARM2;
+  TIMER0->INTR = TIMER_INTR_ALARM2;
 
 #if defined(ST_LLD_ALARM2_STATIC_CB)
   ST_LLD_ALARM2_STATIC_CB();
@@ -183,9 +183,9 @@ OSAL_IRQ_HANDLER(RP_TIMER_IRQ3_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  osalDbgAssert((TIMER->INTS & TIMER_INTS_ALARM3) != 0U, "not pending");
+  osalDbgAssert((TIMER0->INTS & TIMER_INTS_ALARM3) != 0U, "not pending");
 
-  TIMER->INTR = TIMER_INTR_ALARM3;
+  TIMER0->INTR = TIMER_INTR_ALARM3;
 
 #if defined(ST_LLD_ALARM3_STATIC_CB)
   ST_LLD_ALARM3_STATIC_CB();
@@ -215,17 +215,17 @@ void st_lld_init(void) {
 #if OSAL_ST_MODE == OSAL_ST_MODE_FREERUNNING
   /* The timer needs to stop during debug or the virtual timers list would
      go out of sync.*/
-  TIMER->DBGPAUSE   = TIMER_DBGPAUSE_DBG0 | TIMER_DBGPAUSE_DBG1;
+  TIMER0->DBGPAUSE   = TIMER_DBGPAUSE_DBG0 | TIMER_DBGPAUSE_DBG1;
 
   /* Comparators and counter initially at zero.*/
-  TIMER->TIMELW     = 0U;
-  TIMER->TIMEHW     = 0U;
-  TIMER->ALARM[0]   = 0U;
-  TIMER->ALARM[1]   = 0U;
-  TIMER->ALARM[2]   = 0U;
-  TIMER->ALARM[3]   = 0U;
-  TIMER->INTE       = 0U;
-  TIMER->INTR       = TIMER_INTR_ALARM3 | TIMER_INTR_ALARM2 |
+  TIMER0->TIMELW     = 0U;
+  TIMER0->TIMEHW     = 0U;
+  TIMER0->ALARM[0]   = 0U;
+  TIMER0->ALARM[1]   = 0U;
+  TIMER0->ALARM[2]   = 0U;
+  TIMER0->ALARM[3]   = 0U;
+  TIMER0->INTE       = 0U;
+  TIMER0->INTR       = TIMER_INTR_ALARM3 | TIMER_INTR_ALARM2 |
                       TIMER_INTR_ALARM1 | TIMER_INTR_ALARM0;
 
 #endif /* OSAL_ST_MODE == OSAL_ST_MODE_FREERUNNING */
