@@ -32,16 +32,6 @@
 
 /* From Pico-SDK */
 #include "hardware/clocks.h"
-#include "hardware/regs/timer.h"
-#include "hardware/structs/dma.h"
-#include "hardware/structs/timer.h"
-#include "hardware/structs/sio.h"
-#include "hardware/structs/io_bank0.h"
-#include "hardware/structs/pads_bank0.h"
-#include "hardware/structs/resets.h"
-#include "hardware/structs/usb_dpram.h"
-#include "hardware/regs/usb_device_dpram.h"
-#include "hardware/structs/usb.h"
 #include "pico/runtime_init.h"
 
 /*===========================================================================*/
