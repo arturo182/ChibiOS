@@ -473,7 +473,7 @@ struct port_context {
  *          could be unable to empty the FIFO after a catastrophic error.
  */
 #define PORT_SYSTEM_HALT_HOOK() do {                                        \
-    sio_ns_hw->fifo_wr = PORT_FIFO_PANIC_MESSAGE;                                 \
+    sio_hw->fifo_wr = PORT_FIFO_PANIC_MESSAGE;                                 \
   } while (false)
 
 /*===========================================================================*/
@@ -513,8 +513,8 @@ __STATIC_INLINE void port_notify_instance(os_instance_t *oip) {
 
   /* Sending a reschedule order to the other core if there is space in
      the FIFO.*/
-  if ((sio_ns_hw->fifo_st & SIO_FIFO_ST_RDY_BITS) != 0U) {
-    sio_ns_hw->fifo_wr = PORT_FIFO_RESCHEDULE_MESSAGE;
+  if ((sio_hw->fifo_st & SIO_FIFO_ST_RDY_BITS) != 0U) {
+    sio_hw->fifo_wr = PORT_FIFO_RESCHEDULE_MESSAGE;
   }
 }
 
@@ -523,7 +523,7 @@ __STATIC_INLINE void port_notify_instance(os_instance_t *oip) {
  */
 __STATIC_INLINE void port_spinlock_take(void) {
 
-  while (sio_ns_hw->spinlock[PORT_SPINLOCK_NUMBER] == 0U) {
+  while (sio_hw->spinlock[PORT_SPINLOCK_NUMBER] == 0U) {
   }
   __DMB();
 }
@@ -534,7 +534,7 @@ __STATIC_INLINE void port_spinlock_take(void) {
 __STATIC_INLINE void port_spinlock_release(void) {
 
   __DMB();
-  sio_ns_hw->spinlock[PORT_SPINLOCK_NUMBER] = (uint32_t)sio_ns_hw;
+  sio_hw->spinlock[PORT_SPINLOCK_NUMBER] = (uint32_t)sio_hw;
 }
 #endif /* CH_CFG_SMP_MODE == TRUE */
 
@@ -683,7 +683,7 @@ __STATIC_FORCEINLINE rtcnt_t port_rt_get_counter_value(void) {
  */
 __STATIC_INLINE core_id_t port_get_core_id(void) {
 
-  return sio_ns_hw->cpuid;
+  return sio_hw->cpuid;
 }
 
 #endif /* !defined(_FROM_ASM_) */

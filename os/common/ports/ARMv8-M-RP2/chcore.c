@@ -139,11 +139,11 @@ CH_IRQ_HANDLER(Vector7C) {
   CH_IRQ_PROLOGUE();
 
   /* Error flags cleared and ignored.*/
-  sio_ns_hw->fifo_st = SIO_FIFO_ST_ROE_BITS | SIO_FIFO_ST_WOF_BITS;
+  sio_hw->fifo_st = SIO_FIFO_ST_ROE_BITS | SIO_FIFO_ST_WOF_BITS;
 
   /* Read FIFO is fully emptied.*/
-  while ((sio_ns_hw->fifo_st & SIO_FIFO_ST_VLD_BITS) != 0U) {
-    uint32_t message = sio_ns_hw->fifo_rd;
+  while ((sio_hw->fifo_st & SIO_FIFO_ST_VLD_BITS) != 0U) {
+    uint32_t message = sio_hw->fifo_rd;
 #if defined(PORT_HANDLE_FIFO_MESSAGE)
     if (message != PORT_FIFO_RESCHEDULE_MESSAGE) {
       PORT_HANDLE_FIFO_MESSAGE(1U, message);
@@ -169,11 +169,11 @@ CH_IRQ_HANDLER(Vector80) {
   CH_IRQ_PROLOGUE();
 
   /* Error flags cleared and ignored.*/
-  sio_ns_hw->fifo_st = SIO_FIFO_ST_ROE_BITS | SIO_FIFO_ST_WOF_BITS;
+  sio_hw->fifo_st = SIO_FIFO_ST_ROE_BITS | SIO_FIFO_ST_WOF_BITS;
 
   /* Read FIFO is fully emptied.*/
-  while ((sio_ns_hw->fifo_st & SIO_FIFO_ST_VLD_BITS) != 0U) {
-    uint32_t message = sio_ns_hw->fifo_rd;
+  while ((sio_hw->fifo_st & SIO_FIFO_ST_VLD_BITS) != 0U) {
+    uint32_t message = sio_hw->fifo_rd;
     if (message == PORT_FIFO_PANIC_MESSAGE) {
       port_local_halt();
     }
@@ -211,7 +211,7 @@ void port_init(os_instance_t *oip) {
 
 #if CH_CFG_SMP_MODE== TRUE
   /* FIFO handlers for each core.*/
-  sio_ns_hw->fifo_st = SIO_FIFO_ST_ROE_BITS | SIO_FIFO_ST_WOF_BITS;
+  sio_hw->fifo_st = SIO_FIFO_ST_ROE_BITS | SIO_FIFO_ST_WOF_BITS;
   if (oip->core_id == 0U) {
     NVIC_SetPriority(15, CORTEX_MINIMUM_PRIORITY);
     NVIC_EnableIRQ(15);
