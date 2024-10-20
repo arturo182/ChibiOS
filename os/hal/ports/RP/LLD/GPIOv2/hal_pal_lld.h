@@ -188,13 +188,13 @@
 /**
  * @brief   Width, in bits, of an I/O port.
  */
-#define PAL_IOPORTS_WIDTH 32
+#define PAL_IOPORTS_WIDTH 64
 
 /**
  * @brief   Whole port mask.
  * @details This macro specifies all the valid bits into a port.
  */
-#define PAL_WHOLE_PORT ((ioportmask_t)0xFFFFFFFF)
+#define PAL_WHOLE_PORT ((ioportmask_t)0xFFFFFFFFFFFFFFFF)
 /** @} */
 
 /**
@@ -229,22 +229,22 @@
 /**
  * @brief   Type of digital I/O port sized unsigned integer.
  */
-typedef uint32_t ioportmask_t;
+typedef uint64_t ioportmask_t;
 
 /**
  * @brief   Type of digital I/O modes.
  */
-typedef uint32_t iomode_t;
+typedef uint64_t iomode_t;
 
 /**
  * @brief   Type of an I/O line.
  */
-typedef uint32_t ioline_t;
+typedef uint64_t ioline_t;
 
 /**
  * @brief   Type of an event mode.
  */
-typedef uint32_t ioeventmode_t;
+typedef uint64_t ioeventmode_t;
 
 /**
  * @brief   Type of a port Identifier.
@@ -252,12 +252,12 @@ typedef uint32_t ioeventmode_t;
  *          any assumption about it, use the provided macros when populating
  *          variables of this type.
  */
-typedef uint32_t ioportid_t;
+typedef uint64_t ioportid_t;
 
 /**
  * @brief   Type of an pad identifier.
  */
-typedef uint32_t iopadid_t;
+typedef uint64_t  iopadid_t;
 
 /*===========================================================================*/
 /* I/O Ports Identifiers.                                                    */
@@ -290,7 +290,7 @@ typedef uint32_t iopadid_t;
  *
  * @notapi
  */
-#define pal_lld_readport(port)          (sio_hw->gpio_in)
+#define pal_lld_readport(port)          (((uint64_t)sio_hw->gpio_hi_in << 32) | (sio_hw->gpio_in))
 
 /**
  * @brief   Reads the output latch.
@@ -302,7 +302,7 @@ typedef uint32_t iopadid_t;
  *
  * @notapi
  */
-#define pal_lld_readlatch(port)         (sio_hw->gpio_out)
+#define pal_lld_readlatch(port)         (((uint64_t)sio_hw->gpio_hi_out << 32) | (sio_hw->gpio_out))
 
 /**
  * @brief   Writes a bits mask on a I/O port.
@@ -315,7 +315,8 @@ typedef uint32_t iopadid_t;
 #define pal_lld_writeport(port, bits)                                       \
   do {                                                                      \
     (void)port;                                                             \
-    sio_hw->gpio_out = (bits);                                                 \
+    sio_hw->gpio_out = ((bits) & 0xFFFFFFFF);                               \
+    sio_hw->gpio_hi_out = (((bits) >> 32) & 0xFFFFFFFF);                    \
   } while (false)
 
 /**
@@ -332,7 +333,8 @@ typedef uint32_t iopadid_t;
 #define pal_lld_setport(port, bits)                                         \
   do {                                                                      \
     (void)port;                                                             \
-    sio_hw->gpio_set = (bits);                                             \
+    sio_hw->gpio_set = ((bits) & 0xFFFFFFFF);                               \
+    sio_hw->gpio_hi_set = (((bits) >> 32) & 0xFFFFFFFF);                    \
   } while (false)
 
 /**
@@ -349,7 +351,8 @@ typedef uint32_t iopadid_t;
 #define pal_lld_clearport(port, bits)                                       \
   do {                                                                      \
     (void)port;                                                             \
-    sio_hw->gpio_clr = (bits);                                             \
+    sio_hw->gpio_clr = ((bits) & 0xFFFFFFFF);                               \
+    sio_hw->gpio_hi_clr = (((bits) >> 32) & 0xFFFFFFFF);                    \
   } while (false)
 
 /**
@@ -366,7 +369,8 @@ typedef uint32_t iopadid_t;
 #define pal_lld_toggleport(port, bits)                                      \
   do {                                                                      \
     (void)port;                                                             \
-    sio_hw->gpio_out_xor = (bits);                                             \
+    sio_hw->gpio_out_xor = ((bits) & 0xFFFFFFFF);                           \
+    sio_hw->gpio_hi_out_xor = (((bits) >> 32) & 0xFFFFFFFF);                \
   } while (false)
 
 /**
@@ -401,10 +405,18 @@ __STATIC_INLINE void __pal_lld_pad_set_mode(ioportid_t port,
 
   /* Setting up GPIO direction first.*/
   if (oebits != 0U) {
-    sio_hw->gpio_oe_set = 1U << pad;
+    if (pad < 32) {
+      sio_hw->gpio_oe_set = 1U << pad;
+    } else {
+      sio_hw->gpio_hi_oe_set = 1U << (pad - 32);
+    }
   }
   else {
-    sio_hw->gpio_oe_clr = 1U << pad;
+    if (pad < 32) {
+      sio_hw->gpio_oe_clr = 1U << pad;
+    } else {
+      sio_hw->gpio_hi_oe_clr = 1U << (pad - 32);
+    }
   }
 
   /* Then IO and PAD settings.*/
