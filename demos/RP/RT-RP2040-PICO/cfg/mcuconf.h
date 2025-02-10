@@ -27,7 +27,9 @@
  * 0...1        Lowest...Highest.
  */
 
-#define RP2040_MCUCONF
+//#define RP2040_MCUCONF
+#define RP2350_MCUCONF
+
 
 /*
  * HAL driver system settings.

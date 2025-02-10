@@ -1,7 +1,7 @@
 # List of the ChibiOS generic RP2350 startup and CMSIS files.
 STARTUPSRC = $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/crt1.c
           
-STARTUPASM = $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/crt0_v6m.S \
+STARTUPASM = $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/crt0_v8m-ml.S \
              $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/vectors.S
 
 STARTUPINC = $(CHIBIOS)/os/common/portability/GCC \

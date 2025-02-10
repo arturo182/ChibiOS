@@ -33,9 +33,9 @@ PICOSDKINC     = $(CHIBIOS)/os/various/pico_bindings/dumb/include \
                  $(PICOSDKROOT)/src/rp2_common/pico_platform/include \
                  $(PICOSDKROOT)/src/rp2_common/pico_runtime_init/include \
                  $(PICOSDKROOT)/src/rp2_common/pico_runtime/include \
-                 $(PICOSDKROOT)/src/rp2040/hardware_regs/include \
-                 $(PICOSDKROOT)/src/rp2040/hardware_structs/include \
-                 $(PICOSDKROOT)/src/rp2040/pico_platform/include \
+                 $(PICOSDKROOT)/src/rp2350/hardware_regs/include \
+                 $(PICOSDKROOT)/src/rp2350/hardware_structs/include \
+                 $(PICOSDKROOT)/src/rp2350/pico_platform/include \
                  $(PICOSDKROOT)/src/boards/include
 
 # Shared variables
