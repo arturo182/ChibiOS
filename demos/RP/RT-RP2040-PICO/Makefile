@@ -3,6 +3,9 @@
 # NOTE: Can be overridden externally.
 #
 
+# arm-none-eabi-gcc: note: valid arguments to '-mfloat-abi=' are: hard soft softfp
+#USE_FPU = softfp
+
 # Compiler options here.
 ifeq ($(USE_OPT),)
   USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16
@@ -86,7 +89,7 @@ endif
 PROJECT = ch
 
 # Target settings.
-MCU  = cortex-m0plus
+MCU  = cortex-m33
 
 # Imported source files and paths.
 CHIBIOS  := ../../..
@@ -97,15 +100,15 @@ DEPDIR   := ./.dep
 # Licensing files.
 include $(CHIBIOS)/os/license/license.mk
 # Startup files.
-include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_rp2040.mk
+include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_rp2350.mk
 # HAL-OSAL files (optional).
 include $(CHIBIOS)/os/hal/hal.mk
-include $(CHIBIOS)/os/hal/ports/RP/RP2040/platform.mk
-include $(CHIBIOS)/os/hal/boards/RP_PICO_RP2040/board.mk
+include $(CHIBIOS)/os/hal/ports/RP/RP2350/platform.mk
+include $(CHIBIOS)/os/hal/boards/RP_PICO_RP2350/board.mk
 include $(CHIBIOS)/os/hal/osal/rt-nil/osal.mk
 # RTOS files (optional).
 include $(CHIBIOS)/os/rt/rt.mk
-include $(CHIBIOS)/os/common/ports/ARMv6-M-RP2/compilers/GCC/mk/port.mk
+include $(CHIBIOS)/os/common/ports/ARMv8-M-RP2/compilers/GCC/mk/port.mk
 # Auto-build files in ./source recursively.
 include $(CHIBIOS)/tools/mk/autobuild.mk
 # Other files (optional).
@@ -117,6 +120,7 @@ include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
 
 # Define linker script file here
+# FIXME: RP2350 !!!
 LDSCRIPT= $(STARTUPLD)/RP2040_RAM.ld
 
 # C sources that can be compiled in ARM or THUMB mode depending on the global
@@ -153,7 +157,8 @@ CPPWARN = -Wall -Wextra -Wundef
 #
 
 # List all user C define here, like -D_DEBUG=1
-UDEFS = -DCRT0_VTOR_INIT=1 -DCRT0_EXTRA_CORES_NUMBER=1 -DPICO_NO_FPGA_CHECK -DNDEBUG -DPICO_RP2040=1
+# FIXME: make -DPICO_RP2350A configurable
+UDEFS = -DCRT0_VTOR_INIT=1 -DCRT0_EXTRA_CORES_NUMBER=1 -DPICO_NO_FPGA_CHECK -DNDEBUG -DPICO_RP2040=0 -mthumb -march=armv8-m.main+dsp -DPICO_RP2350=1 -DPICO_RP2350A=1 -DPICO_SECURE=1 -DPICO_PLATFORM=rp2350 -DPICO_NO_FLASH=0 -DLIB_PICO_MULTICORE=0 -DPICO_TIME_DEFAULT_ALARM_POOL_DISABLED=0 -D__ARM_ARCH_6M__=0
 
 # Define ASM defines here
 UADEFS = -DCRT0_VTOR_INIT=1 -DCRT0_EXTRA_CORES_NUMBER=1

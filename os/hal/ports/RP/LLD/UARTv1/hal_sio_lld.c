@@ -78,10 +78,10 @@ static const SIOConfig default_config = {
 __STATIC_INLINE void uart_enable_rx_irq(SIODriver *siop) {
 
   if ((siop->enabled & SIO_EV_RXNOTEMPY) != 0U) {
-    siop->uart->UARTIMSC |= UART_UARTIMSC_RXIM;
+    siop->uart->imsc |= UART_UARTIMSC_RXIM;
   }
   if ((siop->enabled & SIO_EV_RXIDLE) != 0U) {
-    siop->uart->UARTIMSC |= UART_UARTIMSC_RTIM;
+    siop->uart->imsc |= UART_UARTIMSC_RTIM;
   }
 }
 
@@ -92,13 +92,13 @@ __STATIC_INLINE void uart_enable_rx_errors_irq(SIODriver *siop) {
          __sio_reloc_field(siop->enabled, SIO_EV_RXBREAK,     SIO_EV_RXBREAK_POS,     UART_UARTIMSC_BEIM_Pos) |
          __sio_reloc_field(siop->enabled, SIO_EV_PARITY_ERR,  SIO_EV_PARITY_ERR_POS,  UART_UARTIMSC_PEIM_Pos) |
          __sio_reloc_field(siop->enabled, SIO_EV_FRAMING_ERR, SIO_EV_FRAMING_ERR_POS, UART_UARTIMSC_TXIM_Pos);
-  siop->uart->UARTIMSC |= imsc;
+  siop->uart->imsc |= imsc;
 }
 
 __STATIC_INLINE void uart_enable_tx_irq(SIODriver *siop) {
 
   if ((siop->enabled & SIO_EV_TXNOTFULL) != 0U) {
-    siop->uart->UARTIMSC |= UART_UARTIMSC_TXIM;
+    siop->uart->imsc |= UART_UARTIMSC_TXIM;
   }
 }
 
@@ -122,16 +122,16 @@ __STATIC_INLINE void uart_init(SIODriver *siop) {
 
   osalDbgAssert((idiv > 0U) && (idiv <= 0xFFFFU), "invalid baud rate");
 
-  siop->uart->UARTIBRD = idiv;
-  siop->uart->UARTFBRD = fdiv;
+  siop->uart->ibrd = idiv;
+  siop->uart->fbrd = fdiv;
 
   /* Registers settings, the LCR_H write also latches dividers values.*/
-  siop->uart->UARTLCR_H = siop->config->UARTLCR_H & ~UART_LCRH_CFG_FORBIDDEN;
-  siop->uart->UARTCR    = siop->config->UARTCR    & ~UART_CR_CFG_FORBIDDEN;
+  siop->uart->lcr_h = siop->config->UARTLCR_H & ~UART_LCRH_CFG_FORBIDDEN;
+  siop->uart->cr    = siop->config->UARTCR    & ~UART_CR_CFG_FORBIDDEN;
 
   /* Setting up the operation.*/
-  siop->uart->UARTICR   = siop->uart->UARTRIS;
-  siop->uart->UARTCR    = siop->config->UARTCR |
+  siop->uart->icr   = siop->uart->ris;
+  siop->uart->cr    = siop->config->UARTCR |
                           UART_UARTCR_RXE | UART_UARTCR_TXE | UART_UARTCR_UARTEN;
 }
 
@@ -259,7 +259,7 @@ void sio_lld_update_enable_flags(SIODriver *siop) {
          __sio_reloc_field(siop->enabled, SIO_EV_RXIDLE,      SIO_EV_RXIDLE_POS,      UART_UARTIMSC_FEIM_Pos);
 
   /* Setting up the operation.*/
-  siop->uart->UARTIMSC = imsc;
+  siop->uart->imsc = imsc;
 }
 
 /**
@@ -275,8 +275,8 @@ sioevents_t sio_lld_get_and_clear_errors(SIODriver *siop) {
   sioevents_t errors = (sioevents_t)0;
 
   /* Getting and clearing all relevant RIS flags (and only those).*/
-  ris = siop->uart->UARTRIS & SIO_LLD_ISR_RX_ERRORS;
-  siop->uart->UARTICR = ris;
+  ris = siop->uart->ris & SIO_LLD_ISR_RX_ERRORS;
+  siop->uart->icr = ris;
 
   /* Status flags cleared, now the related interrupts can be enabled again.*/
   uart_enable_rx_errors_irq(siop);
@@ -303,13 +303,13 @@ sioevents_t sio_lld_get_and_clear_events(SIODriver *siop) {
   sioevents_t events = (sioevents_t)0;
 
   /* Getting all RIS flags.*/
-  ris = siop->uart->UARTRIS & (SIO_LLD_ISR_RX_ERRORS |
+  ris = siop->uart->ris & (SIO_LLD_ISR_RX_ERRORS |
                                UART_UARTMIS_RTMIS    |
                                UART_UARTMIS_RXMIS    |
                                UART_UARTMIS_TXMIS);
 
   /* Clearing captured events.*/
-  siop->uart->UARTICR = ris;
+  siop->uart->icr = ris;
 
   /* Status flags cleared, now the RX-related interrupts can be
      enabled again.*/
@@ -341,7 +341,7 @@ sioevents_t sio_lld_get_events(SIODriver *siop) {
   sioevents_t events = (sioevents_t)0;
 
   /* Getting all RIS flags.*/
-  ris = siop->uart->UARTRIS & (SIO_LLD_ISR_RX_ERRORS |
+  ris = siop->uart->ris & (SIO_LLD_ISR_RX_ERRORS |
                                UART_UARTMIS_RTMIS    |
                                UART_UARTMIS_RXMIS    |
                                UART_UARTMIS_TXMIS);
@@ -387,7 +387,7 @@ size_t sio_lld_read(SIODriver *siop, uint8_t *buffer, size_t n) {
       break;
     }
 
-    *buffer++ = (uint8_t)siop->uart->UARTDR;
+    *buffer++ = (uint8_t)siop->uart->dr;
     rd++;
   }
 
@@ -422,7 +422,7 @@ size_t sio_lld_write(SIODriver *siop, const uint8_t *buffer, size_t n) {
       break;
     }
 
-    siop->uart->UARTDR = (uint32_t)*buffer++;
+    siop->uart->dr = (uint32_t)*buffer++;
     wr++;
   }
 
@@ -444,7 +444,7 @@ size_t sio_lld_write(SIODriver *siop, const uint8_t *buffer, size_t n) {
 msg_t sio_lld_get(SIODriver *siop) {
   msg_t msg;
 
-  msg = (msg_t)(siop->uart->UARTDR & 0xFFU);
+  msg = (msg_t)(siop->uart->dr & 0xFFU);
 
   /* If the RX FIFO has been emptied then the interrupt is enabled again.*/
   if (sio_lld_is_rx_empty(siop)) {
@@ -465,7 +465,7 @@ msg_t sio_lld_get(SIODriver *siop) {
  */
 void sio_lld_put(SIODriver *siop, uint_fast16_t data) {
 
-  siop->uart->UARTDR = data;
+  siop->uart->dr = data;
 
   /* If the TX FIFO has been filled then the interrupt is enabled again.*/
   if (sio_lld_is_tx_full(siop)) {
@@ -514,10 +514,10 @@ void sio_lld_serve_interrupt(SIODriver *siop) {
 
   /* Note, ISR flags are just read but not cleared, ISR sources are
      disabled instead.*/
-  mis = u->UARTMIS;
+  mis = u->mis;
 
   /* Read on control registers.*/
-  imsc = u->UARTIMSC;
+  imsc = u->imsc;
 
   /* Note, ISR flags are just read but not cleared, ISR sources are
      disabled instead.*/
@@ -529,7 +529,7 @@ void sio_lld_serve_interrupt(SIODriver *siop) {
 #if SIO_USE_SYNCHRONIZATION
       /* The idle flag is forcibly cleared when an RX error event is
          detected.*/
-      u->UARTICR = UART_UARTICR_RTIC;
+      u->icr = UART_UARTICR_RTIC;
 #endif
 
       /* Disabling event sources.*/
@@ -561,7 +561,7 @@ void sio_lld_serve_interrupt(SIODriver *siop) {
 #if SIO_USE_SYNCHRONIZATION
       /* The idle flag is forcibly cleared when an RX data event is
          detected.*/
-      u->UARTICR = UART_UARTICR_RTIC;
+      u->icr = UART_UARTICR_RTIC;
 #endif
 
       /* Called once then the interrupt source is disabled.*/
@@ -582,7 +582,7 @@ void sio_lld_serve_interrupt(SIODriver *siop) {
     }
 
     /* Updating IMSC, some sources could have been disabled.*/
-    u->UARTIMSC = imsc;
+    u->imsc = imsc;
 
     /* The callback is invoked.*/
     __sio_callback(siop);

@@ -15,7 +15,7 @@
 */
 
 /*
- * RP2040 memory setup.
+ * RP2350 memory setup.
  */
 MEMORY
 {
@@ -27,41 +27,49 @@ MEMORY
     flash5 (rx) : org = 0x00000000, len = 0
     flash6 (rx) : org = 0x00000000, len = 0
     flash7 (rx) : org = 0x00000000, len = 0
-    ram0   (wx) : org = 0x20000000, len = 256k  /* SRAM0 striped        */
-    ram1   (wx) : org = 0x00000000, len = 256k  /* SRAM0 non striped    */
+    ram0   (rwx) : org = 0x20000000, len = 256k  /* SRAM0 striped        */
+    ram1   (rwx) : org = 0x00000000, len = 256k  /* SRAM0 non striped    */
     ram2   (wx) : org = 0x00000000, len = 0
     ram3   (wx) : org = 0x00000000, len = 0
-    ram4   (wx) : org = 0x20040000, len = 4k    /* SRAM4                */
-    ram5   (wx) : org = 0x20041000, len = 4k    /* SRAM5                */
+    /* is this scratch_x, _y ?? was SRAM4 and SRAM5 */
+    ram4   (wx) : org = 0x20040000, len = 4k    
+    ram5   (wx) : org = 0x20041000, len = 4k   
+    
+
+/* gives ERROR: Memory segment 20080000->20080400 is outside of valid address range for device
+    ram4   (wx) : org = 0x20080000, len = 4k    
+    ram5   (wx) : org = 0x20081000, len = 4k   
+    */
+
     ram6   (wx) : org = 0x00000000, len = 0
-    ram7   (wx) : org = 0x20041f00, len = 256   /* SRAM5 boot           */
+    ram7   (wx) : org = 0x20041f00, len = 256  /* SRAM5 boot           */
 }
 
 /* For each data/text section two region are defined, a virtual region
    and a load region (_LMA suffix).*/
 
 /* Flash region to be used for exception vectors.*/
-REGION_ALIAS("VECTORS_FLASH", ram0);
-REGION_ALIAS("VECTORS_FLASH_LMA", ram0);
+REGION_ALIAS("VECTORS_FLASH", flash1);
+REGION_ALIAS("VECTORS_FLASH_LMA", flash1);
 
 /* Flash region to be used for constructors and destructors.*/
-REGION_ALIAS("XTORS_FLASH", ram0);
-REGION_ALIAS("XTORS_FLASH_LMA", ram0);
+REGION_ALIAS("XTORS_FLASH", flash1);
+REGION_ALIAS("XTORS_FLASH_LMA", flash1);
 
 /* Flash region to be used for code text.*/
-REGION_ALIAS("TEXT_FLASH", ram0);
-REGION_ALIAS("TEXT_FLASH_LMA", ram0);
+REGION_ALIAS("TEXT_FLASH", flash1);
+REGION_ALIAS("TEXT_FLASH_LMA", flash1);
 
 /* Flash region to be used for read only data.*/
-REGION_ALIAS("RODATA_FLASH", ram0);
-REGION_ALIAS("RODATA_FLASH_LMA", ram0);
+REGION_ALIAS("RODATA_FLASH", flash1);
+REGION_ALIAS("RODATA_FLASH_LMA", flash1);
 
 /* Flash region to be used for various.*/
-REGION_ALIAS("VARIOUS_FLASH", ram0);
-REGION_ALIAS("VARIOUS_FLASH_LMA", ram0);
+REGION_ALIAS("VARIOUS_FLASH", flash1);
+REGION_ALIAS("VARIOUS_FLASH_LMA", flash1);
 
 /* Flash region to be used for RAM(n) initialization data.*/
-REGION_ALIAS("RAM_INIT_FLASH_LMA", ram0);
+REGION_ALIAS("RAM_INIT_FLASH_LMA", flash1);
 
 /* RAM region to be used for Main stack. This stack accommodates the processing
    of all exceptions and interrupts.*/

@@ -44,7 +44,7 @@ ifeq ($(USE_VENV),true)
 	python := $(venv_python)
     makefile_venv := $(venv_activate)
 else
-	python := python
+	python := python3.11
     makefile_venv :=
 endif
 
@@ -72,7 +72,7 @@ $(multi_makefiles) : $(external) $(makefile_venv)
 # External projects
 external : $(external)
 $(external) :
-	7z x $@*.7z -o$(@D)
+	7zz x $@*.7z -o$(@D)
 
 # Build documentation
 docs : $(docs)

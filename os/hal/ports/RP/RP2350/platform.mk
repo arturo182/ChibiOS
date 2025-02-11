@@ -29,7 +29,7 @@ include $(CHIBIOS)/os/hal/ports/RP/LLD/DMAv2/driver.mk
 include $(CHIBIOS)/os/hal/ports/RP/LLD/GPIOv2/driver.mk
 # include $(CHIBIOS)/os/hal/ports/RP/LLD/SPIv1/driver.mk
 include $(CHIBIOS)/os/hal/ports/RP/LLD/TIMERv2/driver.mk
-# include $(CHIBIOS)/os/hal/ports/RP/LLD/UARTv1/driver.mk
+include $(CHIBIOS)/os/hal/ports/RP/LLD/UARTv1/driver.mk
 # include $(CHIBIOS)/os/hal/ports/RP/LLD/RTCv1/driver.mk
 # include $(CHIBIOS)/os/hal/ports/RP/LLD/WDGv1/driver.mk
 

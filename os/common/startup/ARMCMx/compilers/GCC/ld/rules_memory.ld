@@ -253,6 +253,8 @@ SECTIONS
     .flash1 : ALIGN(4)
     {
         __flash1_init__ = .;
+                                _stext = ABSOLUTE(.);
+
         KEEP(*(.flash1_init))
         KEEP(*(.flash1_init.*))
         __flash1_free__ = .;

@@ -369,8 +369,8 @@ typedef uint64_t  iopadid_t;
 #define pal_lld_toggleport(port, bits)                                      \
   do {                                                                      \
     (void)port;                                                             \
-    sio_hw->gpio_out_xor = ((bits) & 0xFFFFFFFF);                           \
-    sio_hw->gpio_hi_out_xor = (((bits) >> 32) & 0xFFFFFFFF);                \
+    sio_hw->gpio_togl = ((bits) & 0xFFFFFFFF);                           \
+    sio_hw->gpio_hi_togl = (((bits) >> 32) & 0xFFFFFFFF);                \
   } while (false)
 
 /**
