@@ -15,7 +15,7 @@
 */
 
 /*
- * RP2040 memory setup.
+ * RP2350 memory setup.
  */
 MEMORY
 {

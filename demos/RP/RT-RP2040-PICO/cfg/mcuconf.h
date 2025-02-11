@@ -35,9 +35,16 @@
  * HAL driver system settings.
  */
 #define RP_NO_INIT                          FALSE
-#define RP_CORE1_START                      TRUE
+#define RP_CORE1_START                      FALSE
 #define RP_CORE1_VECTORS_TABLE              _vectors
-#define RP_CORE1_ENTRY_POINT                _crt0_c1_entry
+// ERROR: A RP2040 RAM binary should have an entry point at the beginning: 20000001 (not 20000205)
+// Reset_Handler 20000205
+// in ch.map:
+//                 0x20000204                Reset_Handler
+
+#define RP_CORE1_ENTRY_POINT                Reset_Handler 
+//_stext
+//_crt0_c1_entry 
 #define RP_CORE1_STACK_END                  __c1_main_stack_end__
 
 /*
@@ -52,6 +59,11 @@
 #define RP_IRQ_UART1_PRIORITY               3
 #define RP_IRQ_SPI0_PRIORITY                2
 #define RP_IRQ_SPI1_PRIORITY                2
+
+#define RP_IRQ_TIMER0_ALARM0_PRIORITY        2
+#define RP_IRQ_TIMER0_ALARM1_PRIORITY        2
+#define RP_IRQ_TIMER0_ALARM2_PRIORITY        2
+#define RP_IRQ_TIMER0_ALARM3_PRIORITY        2
 
 /*
  * SIO driver system settings.
