@@ -67,6 +67,8 @@
 
 /**
  * @name    Configuration options
+ * 
+ * FIXME these were renamed ?
  * @{
  */
 /**
